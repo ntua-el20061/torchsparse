@@ -55,9 +55,7 @@ setup(
         "tqdm",
         "typing-extensions",
         "wheel",
-        "rootpath",
-        "torch",
-        "torchvision"
+        "rootpath"
     ],
     dependency_links=[
         'https://download.pytorch.org/whl/cu118'
