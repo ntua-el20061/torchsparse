@@ -89,11 +89,6 @@ def conv3d(
         spatial_range = input.spatial_range
 
         if kmap is None:
-            event1 = torch.cuda.Event(enable_timing=True)
-            event2 = torch.cuda.Event(enable_timing=True)
-            
-            torch.cuda.current_stream().synchronize()
-            event1.record(stream=torch.cuda.current_stream())
             kmap = F.build_kernel_map(
                 coords,
                 feats.shape[0],
@@ -111,29 +106,25 @@ def conv3d(
                 split_mask_num=config.split_mask_num,
                 split_mask_num_bwd=config.split_mask_num_bwd,
             )
-            event2.record(stream=torch.cuda.current_stream())
-            event2.synchronize()
 
-            print(event1.elapsed_time(event2))
-            
             hashmap = [kmap["hashmap_keys"], kmap["hashmap_vals"]]
 
             input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
             input._caches.hashmaps[input.stride] = hashmap
 
-        #feats = ConvolutionFunction.apply(
-        #    feats,
-        #    weight,
-        #    kmap,
-        #    config,
-        #    transposed,
-        #)
+        feats = ConvolutionFunction.apply(
+            feats,
+            weight,
+            kmap,
+            config,
+            transposed,
+        )
 
         if bias is not None:
             feats += bias
         output = SparseTensor(
             coords=kmap["coords"],
-            feats=None,
+            feats=feats,
             stride=tuple(input.stride[k] * stride[k] for k in range(3)),
             spatial_range=kmap["spatial_range"],
         )
