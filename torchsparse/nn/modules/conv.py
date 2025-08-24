@@ -46,6 +46,7 @@ class Conv3d(nn.Module):
                 self.padding += ((self.kernel_size[i] - 1) // 2,)
             else:
                 self.padding += (_padding[i],)
+        print("First stupid:", self.padding)        
         self.transposed = transposed
         self.generative = generative
         if self.generative:

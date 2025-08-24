@@ -58,11 +58,10 @@ def build_kernel_map(
             ("qmapsize", None),
         ]
     )
-
+    print(padding)
     stride = make_ntuple(stride, ndim=3)
     kernel_size = make_ntuple(kernel_size, ndim=3)
     padding = make_ntuple(padding, ndim=3)
-    print(padding)
     if spatial_range is not None:
         new_spatial_range = [0, 0, 0]
         for i in range(len(new_spatial_range)):
