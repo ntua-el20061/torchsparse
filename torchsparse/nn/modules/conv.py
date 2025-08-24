@@ -40,14 +40,12 @@ class Conv3d(nn.Module):
         self.stride = make_ntuple(stride, ndim=3)
         self.dilation = dilation
         _padding = make_ntuple(padding, 3)
-        print("wtf", _padding)        
         self.padding = ()
         for i in range(3):
             if self.kernel_size[i] % 2 == 1 and self.stride[i] == 1:
                 self.padding += ((self.kernel_size[i] - 1) // 2,)
             else:
-                self.padding += (_padding[i],)
-        print("First stupid:", self.padding)        
+                self.padding += (_padding[i],)     
         self.transposed = transposed
         self.generative = generative
         if self.generative:

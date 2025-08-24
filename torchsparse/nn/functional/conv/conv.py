@@ -88,7 +88,6 @@ def conv3d(
 
         spatial_range = input.spatial_range
 
-        print("HELLO: ", padding)
         if kmap is None:
             kmap = F.build_kernel_map(
                 coords,
