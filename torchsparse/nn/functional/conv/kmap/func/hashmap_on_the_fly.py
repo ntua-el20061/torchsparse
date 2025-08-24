@@ -68,12 +68,6 @@ def build_kmap_implicit_GEMM_hashmap_on_the_fly(
     hashtable = torchsparse.backend.GPUHashTable(
         kmap["hashmap_keys"], kmap["hashmap_vals"]
     )
-    print("Min:")
-    print(coords_min)
-    print("Max:")
-    print(coords_max)
-
-
     out = func(
         hashtable,
         coords,

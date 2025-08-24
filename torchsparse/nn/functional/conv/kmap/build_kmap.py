@@ -218,6 +218,7 @@ def build_kernel_map(
         kmap["reduced_sorted_mask_bwd_wgrad"] = reduced_sorted_mask_bwd_wgrad
         kmap["reduced_sorted_mask_bwd_dgrad"] = reduced_sorted_mask_bwd_dgrad
         kmap["reorder_loc_bwd"] = reorder_loc_bwd
+    print(kmap["spatial_range"])
     return kmap
 
 
