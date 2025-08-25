@@ -32,8 +32,6 @@ def spdownsample(
         or downsample_mode == "minkowski"
     ):
         coords = _coords.clone()
-        print(sample_stride)
-        print("MONKEY")
         coords[:, 1:] = torch.div(coords[:, 1:], sample_stride.float()).floor()
         coords = torch.unique(coords, dim=0)
         return coords
