@@ -78,6 +78,7 @@ def conv3d(
         if kmap_mode != "hashmap_on_the_fly":
             hashmap = input._caches.hashmaps.get(input.stride)
         else:
+            print("ON THE FLY")
             hashmap = input._caches.hashmaps.get(
                 tuple(input.stride[k] * stride[k] for k in range(3))
             )
