@@ -99,10 +99,10 @@ __global__ void downsample_grid_kmap_stage1_specialized_fast(
     coords_out[2] <= coords_max[2] &&
     coords_out[3] >= coords_min[3] &&
     coords_out[3] <= coords_max[3]) {
-    type_int grid_index = transform_coords<type_int>(coords_out, coords_min, coords_max);
-    int old_idx = atomicAdd(n_out_points, 1);
-    transformed_coords[old_idx] = grid_index;
-    out_in_map[idx * kernel_volume + kernel_idx] = grid_index;
+    //type_int grid_index = transform_coords<type_int>(coords_out, coords_min, coords_max);
+    //int old_idx = atomicAdd(n_out_points, 1);
+    //transformed_coords[old_idx] = grid_index;
+    out_in_map[idx * kernel_volume + kernel_idx] = idx;
   }
 }
 
