@@ -160,8 +160,8 @@ def conv3d(
 
             # print(f"Avg build_kmap time: {sum(results)/len(results):.3f} ms")
 
-            #input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
-            #input._caches.hashmaps[input.stride] = hashmap
+            input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
+            input._caches.hashmaps[input.stride] = hashmap
 
         #feats = ConvolutionFunction.apply(
         #    feats,
