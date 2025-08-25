@@ -73,24 +73,24 @@ __global__ void downsample_grid_kmap_stage1_specialized_fast(
   {
     #pragma unroll
     for(int i = 1; i <= NDim - 1; i++){
-      int cur_offset = _kernel_idx % kernel_sizes[i - 1];
-      cur_offset -= (kernel_sizes[i - 1] - 1);
-      coords_out[i] = in_coords[idx * NDim + i] + padding[i - 1] + cur_offset;
-      if(coords_out[i] % stride[i - 1] != 0) return;
-      coords_out[i] /= stride[i - 1]; 
-      _kernel_idx /= kernel_sizes[i - 1];
+      //int cur_offset = _kernel_idx % kernel_sizes[i - 1];
+      //cur_offset -= (kernel_sizes[i - 1] - 1);
+      coords_out[i] = in_coords[idx * NDim + i] + padding[i - 1];
+      //if(coords_out[i] % stride[i - 1] != 0) return;
+      //coords_out[i] /= stride[i - 1]; 
+      //_kernel_idx /= kernel_sizes[i - 1];
     }
   }
   else
   {
     #pragma unroll
     for(int i = NDim - 1; i >= 1; i--){
-      //int cur_offset = _kernel_idx % kernel_sizes[i - 1];
-      //cur_offset -= (kernel_sizes[i - 1] - 1);
-      coords_out[i] = in_coords[idx * NDim + i] + padding[i - 1];
-      //if(coords_out[i] % stride[i - 1] != 0) return;
-      //coords_out[i] /= stride[i - 1];
-      //_kernel_idx /= kernel_sizes[i - 1];
+      int cur_offset = _kernel_idx % kernel_sizes[i - 1];
+      cur_offset -= (kernel_sizes[i - 1] - 1);
+      coords_out[i] = in_coords[idx * NDim + i] + padding[i - 1] + cur_offset;
+      if(coords_out[i] % stride[i - 1] != 0) return;
+      coords_out[i] /= stride[i - 1];
+      _kernel_idx /= kernel_sizes[i - 1];
     }
   }
   if (coords_out[1] >= coords_min[1] &&
