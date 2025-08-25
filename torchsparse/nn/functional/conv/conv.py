@@ -76,18 +76,14 @@ def conv3d(
         kmap = input._caches.kmaps.get((input.stride, kernel_size, stride, dilation))
 
         if kmap_mode != "hashmap_on_the_fly":
-            print(input.stride)
             hashmap = input._caches.hashmaps.get(input.stride)
         else:
-            print("ON THE FLY")
             hashmap = input._caches.hashmaps.get(
                 tuple(input.stride[k] * stride[k] for k in range(3))
             )
         if hashmap is None:
-            print("KEKW")
             hashmap_keys, hashmap_vals = None, None
         else:
-            print("WTF")
             hashmap_keys, hashmap_vals = hashmap
 
         spatial_range = input.spatial_range
@@ -164,8 +160,8 @@ def conv3d(
 
             # print(f"Avg build_kmap time: {sum(results)/len(results):.3f} ms")
 
-            input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
-            input._caches.hashmaps[input.stride] = hashmap
+            #input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
+            #input._caches.hashmaps[input.stride] = hashmap
 
         #feats = ConvolutionFunction.apply(
         #    feats,
