@@ -76,6 +76,8 @@ class FetchOnDemandConvolutionFuntion(Function):
                 weight = weight.to(torch.float16)
 
             if config["FOD_fusion"] == True:
+                print("HELLO", torchsparse.backends.allow_tf32, torchsparse.backends.allow_fp16)
+
                 output = torchsparse.backend.conv_forward_fetch_on_demand_cuda(
                     input,
                     weight,
