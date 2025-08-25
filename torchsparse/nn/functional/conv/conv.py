@@ -82,14 +82,16 @@ def conv3d(
                 tuple(input.stride[k] * stride[k] for k in range(3))
             )
         if hashmap is None:
+            print("KEKW")
             hashmap_keys, hashmap_vals = None, None
         else:
+            print("WTF")
             hashmap_keys, hashmap_vals = hashmap
 
         spatial_range = input.spatial_range
 
         if kmap is None:
-            """kmap = F.build_kernel_map(
+            kmap = F.build_kernel_map(
                 coords,
                 feats.shape[0],
                 kernel_size,
@@ -106,60 +108,59 @@ def conv3d(
                 split_mask_num=config.split_mask_num,
                 split_mask_num_bwd=config.split_mask_num_bwd,
             )
-            """
-            for _ in range(5):
-                _ = F.build_kernel_map(
-                    coords,
-                    feats.shape[0],
-                    kernel_size,
-                    stride,
-                    padding,
-                    hashmap_keys,
-                    hashmap_vals,
-                    spatial_range,
-                    kmap_mode,
-                    dataflow,
-                    downsample_mode=config.downsample_mode,
-                    training=training,
-                    ifsort=config.ifsort,
-                    split_mask_num=config.split_mask_num,
-                    split_mask_num_bwd=config.split_mask_num_bwd,
-                )
-            torch.cuda.synchronize()
+            # for _ in range(5):
+            #     _ = F.build_kernel_map(
+            #         coords,
+            #         feats.shape[0],
+            #         kernel_size,
+            #         stride,
+            #         padding,
+            #         hashmap_keys,
+            #         hashmap_vals,
+            #         spatial_range,
+            #         kmap_mode,
+            #         dataflow,
+            #         downsample_mode=config.downsample_mode,
+            #         training=training,
+            #         ifsort=config.ifsort,
+            #         split_mask_num=config.split_mask_num,
+            #         split_mask_num_bwd=config.split_mask_num_bwd,
+            #     )
+            # torch.cuda.synchronize()
 
-            # timing with CUDA events
-            results = []
-            for _ in range(10):
-                start_event = torch.cuda.Event(enable_timing=True)
-                end_event   = torch.cuda.Event(enable_timing=True)
+            # # timing with CUDA events
+            # results = []
+            # for _ in range(10):
+            #     start_event = torch.cuda.Event(enable_timing=True)
+            #     end_event   = torch.cuda.Event(enable_timing=True)
 
-                start_event.record()
-                kmap = F.build_kernel_map(
-                    coords,
-                    feats.shape[0],
-                    kernel_size,
-                    stride,
-                    padding,
-                    hashmap_keys,
-                    hashmap_vals,
-                    spatial_range,
-                    kmap_mode,
-                    dataflow,
-                    downsample_mode=config.downsample_mode,
-                    training=training,
-                    ifsort=config.ifsort,
-                    split_mask_num=config.split_mask_num,
-                    split_mask_num_bwd=config.split_mask_num_bwd,
-                )
-                end_event.record()
+            #     start_event.record()
+            #     kmap = F.build_kernel_map(
+            #         coords,
+            #         feats.shape[0],
+            #         kernel_size,
+            #         stride,
+            #         padding,
+            #         hashmap_keys,
+            #         hashmap_vals,
+            #         spatial_range,
+            #         kmap_mode,
+            #         dataflow,
+            #         downsample_mode=config.downsample_mode,
+            #         training=training,
+            #         ifsort=config.ifsort,
+            #         split_mask_num=config.split_mask_num,
+            #         split_mask_num_bwd=config.split_mask_num_bwd,
+            #     )
+            #     end_event.record()
 
-                # wait for all kernels launched between start and end
-                torch.cuda.synchronize()
+            #     # wait for all kernels launched between start and end
+            #     torch.cuda.synchronize()
 
-                # get elapsed time in milliseconds
-                results.append(start_event.elapsed_time(end_event))
+            #     # get elapsed time in milliseconds
+            #     results.append(start_event.elapsed_time(end_event))
 
-            print(f"Avg build_kmap time: {sum(results)/len(results):.3f} ms")
+            # print(f"Avg build_kmap time: {sum(results)/len(results):.3f} ms")
 
             input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
             input._caches.hashmaps[input.stride] = hashmap
