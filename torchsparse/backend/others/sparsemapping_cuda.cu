@@ -73,12 +73,12 @@ __global__ void downsample_grid_kmap_stage1_specialized_fast(
   {
     #pragma unroll
     for(int i = 1; i <= NDim - 1; i++){
-      //int cur_offset = _kernel_idx % kernel_sizes[i - 1];
-      //cur_offset -= (kernel_sizes[i - 1] - 1);
-      coords_out[i] = in_coords[idx * NDim + i] + padding[i - 1];
-      //if(coords_out[i] % stride[i - 1] != 0) return;
-      //coords_out[i] /= stride[i - 1]; 
-      //_kernel_idx /= kernel_sizes[i - 1];
+      int cur_offset = _kernel_idx % kernel_sizes[i - 1];
+      cur_offset -= (kernel_sizes[i - 1] - 1);
+      coords_out[i] = in_coords[idx * NDim + i] + padding[i - 1] + cur_offset;
+      if(coords_out[i] % stride[i - 1] != 0) return;
+      coords_out[i] /= stride[i - 1]; 
+      _kernel_idx /= kernel_sizes[i - 1];
     }
   }
   else
@@ -99,10 +99,10 @@ __global__ void downsample_grid_kmap_stage1_specialized_fast(
     coords_out[2] <= coords_max[2] &&
     coords_out[3] >= coords_min[3] &&
     coords_out[3] <= coords_max[3]) {
-    //type_int grid_index = transform_coords<type_int>(coords_out, coords_min, coords_max);
-    //int old_idx = atomicAdd(n_out_points, 1);
-    //transformed_coords[old_idx] = grid_index;
-    out_in_map[idx * kernel_volume + kernel_idx] = idx;
+    type_int grid_index = transform_coords<type_int>(coords_out, coords_min, coords_max);
+    int old_idx = atomicAdd(n_out_points, 1);
+    transformed_coords[old_idx] = grid_index;
+    out_in_map[idx * kernel_volume + kernel_idx] = grid_index;
   }
 }
 
