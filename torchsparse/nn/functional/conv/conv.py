@@ -143,13 +143,13 @@ def conv3d(
                 split_mask_num_bwd=config.split_mask_num_bwd,
             )
 
-            feats = ConvolutionFunction.apply(
-                feats,
-                weight,
-                kmap,
-                config,
-                transposed,
-            )
+            #feats = ConvolutionFunction.apply(
+            #    feats,
+            #    weight,
+            #    kmap,
+            #    config,
+            #    transposed,
+            #)
 
             if bias is not None:
                 feats += bias
@@ -180,13 +180,13 @@ def conv3d(
                 generative=generative,
             )
             # generate output: logically forced to be not transposed
-            # feats = ConvolutionFunction.apply(
-            #     feats,
-            #     weight,
-            #     kmap,
-            #     config,
-            #     False,
-            # )
+            feats = ConvolutionFunction.apply(
+                feats,
+                weight,
+                kmap,
+                config,
+                False,
+            )
             if bias is not None:
                 feats += bias
             input._caches.cmaps[tensor_stride] = (
