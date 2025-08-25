@@ -112,13 +112,13 @@ def conv3d(
             input._caches.kmaps[(input.stride, kernel_size, stride, dilation)] = kmap
             input._caches.hashmaps[input.stride] = hashmap
 
-        feats = ConvolutionFunction.apply(
-            feats,
-            weight,
-            kmap,
-            config,
-            transposed,
-        )
+        #feats = ConvolutionFunction.apply(
+        #    feats,
+        #    weight,
+        #    kmap,
+        #    config,
+        #    transposed,
+        #)
 
         if bias is not None:
             feats += bias
@@ -143,13 +143,13 @@ def conv3d(
                 split_mask_num_bwd=config.split_mask_num_bwd,
             )
 
-            #feats = ConvolutionFunction.apply(
-            #    feats,
-            #    weight,
-            #    kmap,
-            #    config,
-            #    transposed,
-            #)
+            feats = ConvolutionFunction.apply(
+                feats,
+                weight,
+                kmap,
+                config,
+                transposed,
+            )
 
             if bias is not None:
                 feats += bias
