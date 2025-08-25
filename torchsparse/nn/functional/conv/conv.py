@@ -180,13 +180,13 @@ def conv3d(
                 generative=generative,
             )
             # generate output: logically forced to be not transposed
-            feats = ConvolutionFunction.apply(
-                feats,
-                weight,
-                kmap,
-                config,
-                False,
-            )
+            # feats = ConvolutionFunction.apply(
+            #     feats,
+            #     weight,
+            #     kmap,
+            #     config,
+            #     False,
+            # )
             if bias is not None:
                 feats += bias
             input._caches.cmaps[tensor_stride] = (
