@@ -62,6 +62,7 @@ __global__ void downsample_grid_kmap_stage1_specialized_fast(
     int n_points, int kernel_volume, int *in_coords, int *kernel_sizes, int *stride,
     int *padding, int *coords_min, int *coords_max, int *n_out_points,
     type_int *transformed_coords, type_int *out_in_map) {
+  std::printf("%d %d %d\n", coords_max[1], coords_max[2], coords_max[3]);    
   int tidx = blockIdx.x * blockDim.x + threadIdx.x;
   int idx = tidx / kernel_volume;
   int _kernel_idx = tidx % kernel_volume;
@@ -475,7 +476,6 @@ std::vector<at::Tensor> build_kernel_map_downsample_hashmap(
   }
   // stage2: get unique coordinates and insert them to the grid.
   int n_out_points_with_duplicate = _n_out_points.item<int>();
-  std::printf("%d\n", n_out_points_with_duplicate);
   at::Tensor _out_coords = std::get<0>(torch::_unique(torch::from_blob(transformed_out_coords, {n_out_points_with_duplicate}, options_long)));
   int64_t *out_coords = _out_coords.data_ptr<int64_t>();
 
