@@ -393,7 +393,6 @@ std::vector<at::Tensor> build_kernel_map_downsample_hashmap_int32(
   }
   // stage2: get unique coordinates and insert them to the grid.
   int n_out_points_with_duplicate = _n_out_points.item<int>();
-  std::printf("%d\n", n_out_points_with_duplicate);
   at::Tensor _out_coords = std::get<0>(torch::_unique(torch::from_blob(transformed_out_coords, {n_out_points_with_duplicate}, options)));
   int32_t *out_coords = _out_coords.data_ptr<int>();
   // stage 2.1: insert to the hashmap and transform the out coords to N x 4 format.
@@ -476,7 +475,7 @@ std::vector<at::Tensor> build_kernel_map_downsample_hashmap(
   }
   // stage2: get unique coordinates and insert them to the grid.
   int n_out_points_with_duplicate = _n_out_points.item<int>();
-
+  std::printf("%d\n", n_out_points_with_duplicate);
   at::Tensor _out_coords = std::get<0>(torch::_unique(torch::from_blob(transformed_out_coords, {n_out_points_with_duplicate}, options_long)));
   int64_t *out_coords = _out_coords.data_ptr<int64_t>();
 
