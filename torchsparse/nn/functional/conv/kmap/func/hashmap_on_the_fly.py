@@ -47,7 +47,7 @@ def build_kmap_implicit_GEMM_hashmap_on_the_fly(
     if subm:
         func = torchsparse.backend.build_kernel_map_subm_hashmap
     else:
-        func = torchsparse.backend.build_kernel_map_downsample_hashmap
+        func = torchsparse.backend.build_kernel_map_downsample_hashmap_int32
     to_insert = False
 
     assert (
