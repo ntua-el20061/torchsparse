@@ -58,7 +58,7 @@ def build_kmap_implicit_GEMM_hashmap_on_the_fly(
     )
     if kmap["hashmap_keys"] is None:
         kmap["hashmap_keys"] = torch.zeros(
-            hashmap_capacity, dtype=torch.int64, device=coords.device
+            hashmap_capacity, dtype=torch.int32, device=coords.device
         )
         to_insert = True
     if kmap["hashmap_vals"] is None:
