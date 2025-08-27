@@ -47,7 +47,7 @@ def build_kmap_implicit_GEMM_hashmap_on_the_fly(
     if subm:
         func = torchsparse.backend.build_kernel_map_subm_hashmap
     else:
-        func = torchsparse.backend.build_kernel_map_downsample_hashmap_int32
+        func = torchsparse.backend.build_kernel_map_downsample_hashmap
     to_insert = False
 
     assert (
@@ -58,14 +58,14 @@ def build_kmap_implicit_GEMM_hashmap_on_the_fly(
     )
     if kmap["hashmap_keys"] is None:
         kmap["hashmap_keys"] = torch.zeros(
-            hashmap_capacity, dtype=torch.int32, device=coords.device
+            hashmap_capacity, dtype=torch.int64, device=coords.device
         )
         to_insert = True
     if kmap["hashmap_vals"] is None:
         kmap["hashmap_vals"] = torch.zeros(
             hashmap_capacity, dtype=torch.int32, device=coords.device
         )
-    hashtable = torchsparse.backend.GPUHashTable32(
+    hashtable = torchsparse.backend.GPUHashTable(
         kmap["hashmap_keys"], kmap["hashmap_vals"]
     )
     out = func(
