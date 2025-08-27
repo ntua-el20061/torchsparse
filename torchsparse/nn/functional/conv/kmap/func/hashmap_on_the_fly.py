@@ -65,7 +65,7 @@ def build_kmap_implicit_GEMM_hashmap_on_the_fly(
         kmap["hashmap_vals"] = torch.zeros(
             hashmap_capacity, dtype=torch.int32, device=coords.device
         )
-    hashtable = torchsparse.backend.GPUHashTable(
+    hashtable = torchsparse.backend.GPUHashTable32(
         kmap["hashmap_keys"], kmap["hashmap_vals"]
     )
     out = func(
