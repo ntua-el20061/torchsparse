@@ -62,7 +62,7 @@ __global__ void downsample_grid_kmap_stage1_specialized_fast(
     int n_points, int kernel_volume, int *in_coords, int *kernel_sizes, int *stride,
     int *padding, int *coords_min, int *coords_max, int *n_out_points,
     type_int *transformed_coords, type_int *out_in_map) {
-  std::printf("%d %d %d\n", coords_max[1], coords_max[2], coords_max[3]);    
+  //std::printf("%d %d %d\n", coords_max[1], coords_max[2], coords_max[3]);    
   int tidx = blockIdx.x * blockDim.x + threadIdx.x;
   int idx = tidx / kernel_volume;
   int _kernel_idx = tidx % kernel_volume;
